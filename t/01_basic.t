@@ -6,7 +6,7 @@ use utf8;
 use DBI;
 use DBIx::UTF8Key;
 
-use Test::More tests => 2;
+use Test::More tests => 4;
 
 {
     my $dbh = DBI->connect("DBI:SQLite:dbname=t/test.sqlite",
@@ -17,7 +17,9 @@ use Test::More tests => 2;
         }
     );
     my $ret = $dbh->selectrow_hashref('SELECT * FROM テーブル');
-    is(utf8::is_utf8((keys %$ret)[0]), '');
+    for my $key (keys %$ret) {
+        is(utf8::is_utf8($key), '');
+    }
 }
 
 {
@@ -29,5 +31,7 @@ use Test::More tests => 2;
         }
     );
     my $ret = $dbh->selectrow_hashref('SELECT * FROM テーブル');
-    is(utf8::is_utf8((keys %$ret)[0]), 1);
+    for my $key (keys %$ret) {
+        is(utf8::is_utf8($key), 1);
+    }
 }

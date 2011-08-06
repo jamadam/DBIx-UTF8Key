@@ -17,12 +17,12 @@ package DBIx::UTF8Key::st;
         
         my ($sth, @args) = @_;
         my $hash_ref = $sth->SUPER::fetchrow_hashref(@args) or return;
+        my $hash_fixed = {};
         while (my ($key, $val) = each(%$hash_ref)) {
-            delete $$hash_ref{$key};
             utf8::decode($key);
-            $$hash_ref{$key} = $val;
+            $hash_fixed->{$key} = $val;
         }
-        return $hash_ref;
+        return $hash_fixed;
     }
 
 1;
