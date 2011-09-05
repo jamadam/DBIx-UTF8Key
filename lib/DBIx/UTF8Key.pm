@@ -20,6 +20,7 @@ package DBIx::UTF8Key::st;
         my $hash_fixed = {};
         while (my ($key, $val) = each(%$hash_ref)) {
             utf8::decode($key);
+            utf8::decode($val);
             $hash_fixed->{$key} = $val;
         }
         return $hash_fixed;
