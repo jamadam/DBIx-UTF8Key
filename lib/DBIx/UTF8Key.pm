@@ -8,6 +8,11 @@ package DBIx::UTF8Key;
 package DBIx::UTF8Key::db;
     
     use base qw(DBI::db);
+    use Encode 'decode_utf8';
+    
+    sub errstr {
+        return decode_utf8(shift->SUPER::errstr(@_));
+    }
 
 package DBIx::UTF8Key::st;
     
